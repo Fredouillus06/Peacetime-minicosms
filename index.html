@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>PEACETIME minicosm experiments</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Website title</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+<li>
+  <a href="schedule.html">Weekly schedule</a>
+</li>
+<li>
+  <a href="assignments.html">Assignments</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">PEACETIME minicosm experiments</h1>
+
+</div>
+
+
+<div class="figure">
+<img src="Project.jpg" />
+
+</div>
+<div id="background-and-objectives" class="section level1">
+<h1>Background and objectives</h1>
+<p>Interactions between the atmosphere and the ocean play a key role in governing biogeochemical cycles in the oceans. Understanding these processes is essential to assess the impacts of anthropogenic activities on ocean nutrient cycles and their potential retroaction on climate. The main objective of this project is to assess the impact of atmospheric deposition of Saharan dust on the functioning of surface plankton communities in a warmer and more acidified low-nutrient and low-chlorophyll area, the Mediterranean Sea.</p>
+</div>
+<div id="experimental-method" class="section level1">
+<h1>Experimental method</h1>
+<p>Six experimental tanks (300 L) in which the irradiance spectrum and intensity can be finely controlled and in which future ocean acidification and warming conditions can be fully reproduced were installed in a temperature-controlled container. The experimental protocol (2 controls, 2 tanks with dust and 2 tanks with dust under warmer and acidified conditions) included the analysis of an extensive number of biogeochemical parameters and processes that are listed below. Three experiments of 72 h (3 days) were conducted at stations TYR (Exp #A), ION (Exp #B) and FAST (Exp #C). The last experiment at station FAST was extended to 4 days.</p>
+<div class="figure">
+<img src="Map.jpg" alt="Map showing the position of the 3 sampling stations." />
+<p class="caption">Map showing the position of the 3 sampling stations.</p>
+</div>
+<p>The experimental tanks were filled with seawater from the continuous surface pumping system upon arrival at the stations TYR (17/05) and ION (25/05) and one day after arrival at station FAST (02/06).</p>
+<div class="figure">
+<img src="Filling.JPG" />
+
+</div>
+<p>Tanks C1 and C2 were unmodified control tanks, D1 and D2 were enriched with dust (10 g m<sup>-2</sup>), and G1 and G2 were warmed (+3 <span class="math inline">\(^\circ\)</span>C) and acidified (-0.3 pH unit) tanks enriched with dust (10 g m<sup>-2</sup>). The atmosphere above tanks C1, C2, D1 and D2 was flushed with ambient air and tanks G1 and G2 were flushed with air enriched with CO<sub>2</sub> (at 1000 ppm) in order to prevent CO<sub>2</sub> degassing from the acidified tanks. The tanks closed atmospheric headspace were continuously monitored for their gas-phase composition, related to seawater emissions, and for the formation of new atmospheric particles.</p>
+<div class="figure">
+<img src="Dust.jpg" />
+
+</div>
+<p>When filling the tanks, seawater was sampled for the measurements of selected parameters (sampling time = T-1). After filling the tanks, seawater was slowly warmed in the G1 and G2 tanks overnight. <sup>13</sup>C-bicarbonate was added to all tanks at 4 am (local time) and G1 and G2 tanks were acidified by addition of CO<sub>2</sub> saturated seawater at 4:30am. Sampling for many parameters took place (see list below) prior to dust seeding (sampling time = T0). Dust seeding was performed between 7am and 9am in tanks D1, D2, G1 and G2. Thereafter, seawater sampling was conducted 1 h (T1), 6 h (T2), 12 h (T3), 24 h (T4), 48 h (T5) and 72 h (T6) (+ 96 h = T7 for station FAST) after dust enrichment.</p>
+<div class="figure">
+<img src="Sampling.JPG" />
+
+</div>
+</div>
+<div id="data-availability" class="section level1">
+<h1>Data availability</h1>
+<p>The full dataset can be downloaded <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTXAP8HL2v-TLdcZSaGT6AR1jKwwlGq9FRD3kFZj5RtJD8qj5MVpakKslY04LgXF6xTHZWrtnGsBjOe/pub?gid=333546931&amp;single=true&amp;output=csv">here</a>.</p>
+</div>
+<div id="measured-variables-and-processes" class="section level1">
+<h1>Measured variables and processes</h1>
+<div id="spectrophotometric-ph" class="section level2">
+<h2>Spectrophotometric pH</h2>
+<div id="method" class="section level3">
+<h3>Method</h3>
+</div>
+<div id="data-vizualization" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20spectrophotometric%20pH-1.png" width="672" /></p>
+</div>
+</div>
+<div id="total-alkalinity" class="section level2">
+<h2>Total alkalinity</h2>
+<div id="method-1" class="section level3">
+<h3>Method</h3>
+<p>Seawater samples for total alkalinity (<em>A</em><sub>T</sub>; 500 mL) measurements were filtered on GF/F membranes and analyzed within one day. <em>A</em><sub>T</sub> was determined potentiometrically using a Metrohm titrator (Titrando 888) and a glass electrode (Metrohm, ecotrode plus) calibrated using first NBS buffers (pH 4.0 and pH 7.0, to check that the slope was Nernstian) and then using TRIS buffer solutions (salinity 35, provided by A. Dickson, Scripps university, USA). Triplicate titrations were performed on 50 mL sub-samples at XX <span class="math inline">\(^\circ\)</span>C and <em>A</em><sub>T</sub> was calculated as described by Dickson et al. (2007). Titrations of standard seawater provided by A. Dickson (batch XXX) yielded <em>A</em><sub>T</sub> values within XX <span class="math inline">\(\mu\)</span>mol kg<sup>-1</sup> of the nominal value (standard deviation = XX <span class="math inline">\(\mu\)</span>mol kg<sup>-1</sup>, n = XX).</p>
+</div>
+<div id="data-vizualization-1" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20total%20alkalinity-1.png" width="672" /></p>
+</div>
+</div>
+<div id="computed-carbonate-chemistry-parameters" class="section level2">
+<h2>Computed carbonate chemistry parameters</h2>
+<div id="method-2" class="section level3">
+<h3>Method</h3>
+<p>All parameters of the carbonate chemistry were determined from <em>C</em><sub>T</sub>, <em>A</em><sub>T</sub>, temperature, salinity, phosphate and silicate using the R package seacarb (Gattuso et al., 2017).</p>
+</div>
+<div id="data-vizualization-2" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20total%20carbon-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/plot%20partial%20pressure%20of%20CO2-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="dissolved-oxygen" class="section level2">
+<h2>Dissolved oxygen</h2>
+<div id="method-3" class="section level3">
+<h3>Method</h3>
+<p>O<sub>2</sub> concentrations were measured using an automated Winkler titration technique with potentiometric end-point detection. Analyses were performed with a Metrohm Titrando 888 and a redox electrode (Metrohm Au electrode). Reagents and standardizations were similar to those described by Knap et al. (1996).</p>
+</div>
+<div id="data-vizualization-3" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20oxygen-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="macro-nutrients" class="section level2">
+<h2>Macro-nutrients</h2>
+<div id="method-4" class="section level3">
+<h3>Method</h3>
+<p>Seawater samples (20 mL) for nitrate + nitrite (NO<sub>x</sub>) and silicate (SiOH) measurements were filtered online (<em>on what ?</em>) in plastic bottles and immediately analyzed on board using a ….. <em>Please complete and add NH4</em> Additionally, seawater samples were taken for the measurements of dissolved organic and inorganic nitrogen (DON and NOx respectively) and phosphate (DOP and SRP respectively) unsing nanomolar techniques. Samples for NO<sub>x</sub> and SRP were taken in 60 mL polyethylene bottles, previously cleaned following trace-metal clean procedures (Bruland et al., 1979), and then acidified to pH &lt; 2 with HCl ultrapure, following the recommendations of Pulido-Villena et al. (2010). Samples for the determination of DON and DOP (60 mL) were not acidified but directly irradiated. The analysis of NO<sub>x</sub> was performed by a spectrometric method in the visible at 540 nm, with a 1 m Liquid Waveguide Capillary Cell (LWCC). This method is based on the colored reaction between NO<sub>2</sub><sup>-</sup> and 2 reagents (sulfanilamide and NED) to form a pink azo compound. Previously, samples were passed through a copperized cadmium column to reduce NO<sub>3</sub><sup>-</sup> to NO<sub>2</sub><sup>-</sup> and determine NO<sub>x</sub> concentrations using a calibration curve in ultrapure water. The limit of detection was ~10 nM and the reproducibility was ~6% (tested using a reference solution, CertiPUR, Merck; tstudent = XXXX, n=XX, pvalue=XXX). <em>Please complete</em></p>
+</div>
+<div id="data-vizualization-4" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20macronutrients-1.png" width="672" /><img src="index_files/figure-html/plot%20macronutrients-2.png" width="672" /><img src="index_files/figure-html/plot%20macronutrients-3.png" width="672" /><img src="index_files/figure-html/plot%20macronutrients-4.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="micro-nutrients" class="section level2">
+<h2>Micro-nutrients</h2>
+<div id="method-5" class="section level3">
+<h3>Method</h3>
+<p><em>Matthieu/Thibault, please send me a description of the methods used.</em></p>
+</div>
+<div id="data-vizualization-5" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20micronutrients-1.png" width="672" /><img src="index_files/figure-html/plot%20micronutrients-2.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="flow-cytometry" class="section level2">
+<h2>Flow-Cytometry</h2>
+<div id="method-6" class="section level3">
+<h3>Method</h3>
+<p>Seawater samples of 1.5 to 4 mL were fixed with 1% glutaraldehyde and analyzed at OOB with FACS CANTO / (or at SIO with Accuri). <em>Please complete</em></p>
+</div>
+<div id="data-vizualization-6" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20cytometry-1.png" width="672" /><img src="index_files/figure-html/plot%20cytometry-2.png" width="672" /><img src="index_files/figure-html/plot%20cytometry-3.png" width="672" /><img src="index_files/figure-html/plot%20cytometry-4.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="organic-matter" class="section level2">
+<h2>Organic matter</h2>
+<div id="method-7" class="section level3">
+<h3>Method</h3>
+<p>Seawater samples for dissolved organic carbon (DOC; 2x 10 mL) measurements were filtered on GF/F membranes and acidified with 0.25% H<sub>3</sub>PO<sub>4</sub> in calcified glass ampules. Samples were analyzed using …. <em>Please complete</em> Seawater samples for particulate organic carbon (POC; 2 L) measurements were filtered on pre-combusted GF/F membranes and analyzed at the <em>Laboratoire d’Oceanographie de Villefranche</em> on an elemental analyzer coupled with an isotope ratio mass spectrometer (EA-IRMS). <em>Please complete for TEP</em></p>
+</div>
+<div id="data-vizualization-7" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20organic-1.png" width="672" /><img src="index_files/figure-html/plot%20organic-2.png" width="672" /><img src="index_files/figure-html/plot%20organic-3.png" width="672" /><img src="index_files/figure-html/plot%20organic-4.png" width="672" /><img src="index_files/figure-html/plot%20organic-5.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="pigments" class="section level2">
+<h2>Pigments</h2>
+<div id="method-8" class="section level3">
+<h3>Method</h3>
+<p>A volume of 2.5 L of sampled seawater was filtered onto GF/F. Filters were directly frozen in liquid nitrogen and stored at -80 <span class="math inline">\(^\circ\)</span>C pending analysis at the <em>Laboratoire d’Oceanographie de Villefranche</em> (France). Filters were extracted at -20 <span class="math inline">\(^\circ\)</span>C in 3 mL methanol (100%), disrupted by sonication and clarified one hour later by vacuum filtration through GF/F filters. The extracts were rapidly analyzed (within 24 h) by high performance liquid chromatography (HPLC) with a complete Agilent Technologies system. The pigments were separated and quantified as described in Ras et al. (2008).</p>
+</div>
+<div id="data-vizualization-8" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20pigments-1.png" width="672" /><img src="index_files/figure-html/plot%20pigments-2.png" width="672" /><img src="index_files/figure-html/plot%20pigments-3.png" width="672" /><img src="index_files/figure-html/plot%20pigments-4.png" width="672" /><img src="index_files/figure-html/plot%20pigments-5.png" width="672" /><img src="index_files/figure-html/plot%20pigments-6.png" width="672" /><img src="index_files/figure-html/plot%20pigments-7.png" width="672" /><img src="index_files/figure-html/plot%20pigments-8.png" width="672" /><img src="index_files/figure-html/plot%20pigments-9.png" width="672" /><img src="index_files/figure-html/plot%20pigments-10.png" width="672" /><img src="index_files/figure-html/plot%20pigments-11.png" width="672" /><img src="index_files/figure-html/plot%20pigments-12.png" width="672" /><img src="index_files/figure-html/plot%20pigments-13.png" width="672" /><img src="index_files/figure-html/plot%20pigments-14.png" width="672" /><img src="index_files/figure-html/plot%20pigments-15.png" width="672" /><img src="index_files/figure-html/plot%20pigments-16.png" width="672" /><img src="index_files/figure-html/plot%20pigments-17.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="c-production" class="section level2">
+<h2><sup>14</sup>C-production</h2>
+<div id="method-9" class="section level3">
+<h3>Method</h3>
+<p><em>Please complete</em></p>
+</div>
+<div id="data-vizualization-9" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%2014C-production-1.png" width="672" /><img src="index_files/figure-html/plot%2014C-production-2.png" width="672" /><img src="index_files/figure-html/plot%2014C-production-3.png" width="672" /><img src="index_files/figure-html/plot%2014C-production-4.png" width="672" /><img src="index_files/figure-html/plot%2014C-production-5.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="oxygen-metabolism" class="section level2">
+<h2>Oxygen metabolism</h2>
+<div id="method-10" class="section level3">
+<h3>Method</h3>
+<p>A volume of 2 L from each mincicosm was sampled in plastic bottles and distributed in 15 biological oxygen demand (BOD; 60 mL) borosilicate bottles. Five BOD were immediately fixed with Winkler reagents (initial O<sub>2</sub> concentrations), five BOD were incubated in the dark for the measurement of community respiration (CR) in two incubators maintained respectively at ambient temperature for C1, C2, D1 and D2 and at ambient temperature +3 <span class="math inline">\(^\circ\)</span>C for G1 and G2, and five BOD were incubated for the measurement of net community production (NCP) in two extra containers (ambient temperature for C1, C2, D1 and D2 and ambient temperature +3 <span class="math inline">\(^\circ\)</span>C for G1 and G2) maintained under a similar light regime than in the experimental minicosms. O<sub>2</sub> concentrations were measured using an automated Winkler titration technique with potentiometric endpoint detection. Analyses were performed on board with a Metrohm Titrando 888 and a redox electrode (Metrohm Au electrode). Reagents and standardizations were similar to those described by Knap et al. (1996). NCP and CR were estimated by regressing O<sub>2</sub> values against time, and CR was expressed as negative values. Gross primary production (GPP) was calculated as the difference between NCP and CR. The combined errors were calculated as: S.E.<sub>xy</sub>=<span class="math inline">\(\sqrt{(S.E._x^2 + S.E._y^2)}\)</span></p>
+</div>
+<div id="data-vizualization-10" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20Oxygen%20metabolism-1.png" width="672" /><img src="index_files/figure-html/plot%20Oxygen%20metabolism-2.png" width="672" /><img src="index_files/figure-html/plot%20Oxygen%20metabolism-3.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="bacterial-processes" class="section level2">
+<h2>Bacterial processes</h2>
+<p><em>Please complete</em></p>
+<div id="method-11" class="section level3">
+<h3>Method</h3>
+</div>
+<div id="data-vizualization-11" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20Bacterial%20processes-1.png" width="672" /><img src="index_files/figure-html/plot%20Bacterial%20processes-2.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="c-ncp" class="section level2">
+<h2><sup>13</sup>C-NCP</h2>
+<div id="method-12" class="section level3">
+<h3>Method</h3>
+</div>
+<div id="data-vizualization-12" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%2013C-NCP-1.png" width="672" /><img src="index_files/figure-html/plot%2013C-NCP-2.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="n2-fixation" class="section level2">
+<h2>N<sub>2</sub> fixation</h2>
+<div id="method-13" class="section level3">
+<h3>Method</h3>
+<p>From each minicosms, a sampled volume of 2.3 L was incubated in plastic bottles for 24 h in two extra containers (ambient temperature for C1, C2, D1 and D2 and +3 <span class="math inline">\(^\circ\)</span>C for G1 and G2) maintained under a similar light regime than in the experimental minicosms. After incubation, the entire volume was filtered on pre-combusted GF/F membranes. Filters were analyzed at LOCEAN on a IRMS (preciser le type et detailler un peu le protocole).</p>
+</div>
+<div id="data-vizualization-13" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20N2%20fixation-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="optics" class="section level2">
+<h2>Optics</h2>
+<div id="method-14" class="section level3">
+<h3>Method</h3>
+</div>
+<div id="data-vizualization-14" class="section level3">
+<h3>Data vizualization</h3>
+<p><img src="index_files/figure-html/plot%20Optics-1.png" width="672" /><img src="index_files/figure-html/plot%20Optics-2.png" width="672" /></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="statictics" class="section level1">
+<h1>Statictics</h1>
+<p><strong>Coming soon</strong></p>
+<pre><code>## Warning in aovp(DOC ~ Treatment * Sampling_time + Error(Minicosm/
+## Sampling_time), : Error() model is singular</code></pre>
+<pre><code>## [1] &quot;Settings:  unique SS &quot;</code></pre>
+<pre><code>## 
+## Error: Minicosm
+## Component 1 :
+##                          Df R Sum Sq R Mean Sq Pr(Exact)
+## Treatment1                2   898.41    449.21    0.5250
+## Sampling_time             2    98.54     49.27    0.8750
+## Treatment1:Sampling_time  1   122.71    122.71    0.5333
+## 
+## 
+## Error: Minicosm:Sampling_time
+## Component 1 :
+##                          Df R Sum Sq R Mean Sq  Iter Pr(Prob)    
+## Sampling_time             8   840.92   105.115 1e+06  &lt; 2e-16 ***
+## Treatment1:Sampling_time 16   270.33    16.896 1e+06  0.01319 *  
+## Residuals                22   132.31     6.014                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## 
+## Error: Within
+## Component 1 :
+##           Df R Sum Sq R Mean Sq
+## Residuals 89   1203.7    13.524</code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
